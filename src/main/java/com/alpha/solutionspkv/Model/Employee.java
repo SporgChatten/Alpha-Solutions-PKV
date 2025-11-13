@@ -5,18 +5,17 @@ public class Employee {
     private User user;
     private String firstName;
     private String lastName;
-    private String position;
+
     private double hourlyRate;
 
 
     public Employee() {}
 
-    public Employee(int employeeId, User user, String firstName, String lastName, String position, double hourlyRate) {
+    public Employee(int employeeId, User user, String firstName, String lastName, double hourlyRate) {
         this.employeeId = employeeId;
         this.user = user;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.position = position;
         this.hourlyRate = hourlyRate;
     }
 
@@ -50,14 +49,6 @@ public class Employee {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
     }
 
     public double getHourlyRate() {

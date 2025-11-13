@@ -7,17 +7,21 @@ public class User {
         private String username;
         private String email;
         private String password;
-        private Role role; // enum: ADMIN, MANAGER, EMPLOYEE
+        private Role role; // enum: ADMIN, EMPLOYEE
+        private String firstName;
+        private String lastName;
 
 
     public User() {}
 
-    public User(int userId, String username, String email, String password, Role role) {
+    public User(int userId, String username, String email, String password, Role role, String firstName, String lastName) {
         this.userId = userId;
         this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public int getUserId() {
@@ -58,6 +62,22 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
 
