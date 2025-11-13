@@ -7,7 +7,7 @@ public class User {
         private String username;
         private String email;
         private String password;
-        private Role role; // enum: ADMIN, EMPLOYEE
+        private Role role; // enum: ADMIN, MANAGER, EMPLOYEE
         private String firstName;
         private String lastName;
 
