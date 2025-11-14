@@ -1,7 +1,5 @@
 package com.alpha.solutionspkv.Model;
 
-import javax.management.relation.Role;
-
 public class User {
         private int userId;
         private String username;
