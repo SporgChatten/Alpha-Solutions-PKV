@@ -1,4 +1,4 @@
-package com.alpha.solutionspkv.Repository;
+package com.alpha.solutionspkv.Repository.Rowmapper;
 
 import com.alpha.solutionspkv.Model.Employee;
 import com.alpha.solutionspkv.Model.User;

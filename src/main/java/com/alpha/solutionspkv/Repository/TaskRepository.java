@@ -1,6 +1,7 @@
 package com.alpha.solutionspkv.Repository;
 
 import com.alpha.solutionspkv.Model.Task;
+import com.alpha.solutionspkv.Repository.Rowmapper.TaskRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
