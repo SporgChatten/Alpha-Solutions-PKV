@@ -2,11 +2,11 @@
 -- DATABASE SCHEMA – Alpha Solution PKV
 -- ======================================================
 
-CREATE DATABASE IF NOT EXISTS alpha_solution_pkv
+CREATE DATABASE IF NOT EXISTS pkv
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 
-USE alpha_solution_pkv;
+USE pkv;
 
 -- ========== USER ==========
 CREATE TABLE IF NOT EXISTS user (
