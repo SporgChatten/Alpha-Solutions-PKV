@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ProjectRowMapper implements RowMapper<Project> {
 
@@ -27,18 +28,17 @@ public class ProjectRowMapper implements RowMapper<Project> {
 
         project.setBudget(rs.getDouble("budget"));
 
-        // ----- CREATED BY USER -----
-        int createdById = rs.getInt("created_by");
-        if (!rs.wasNull()) {
+        Integer createdById = rs.getObject("created_by", Integer.class);
+        if (createdById != null) {
             User creator = new User();
             creator.setUserId(createdById);
             project.setCreatedBy(creator);
+        } else {
+            project.setCreatedBy(null);
         }
 
-        // TASKS hentes separat → sættes til null her
-        project.setTasks(null);
+        project.setTasks(new ArrayList<>());
 
         return project;
     }
 }
-
