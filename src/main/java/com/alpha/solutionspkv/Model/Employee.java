@@ -8,7 +8,6 @@ public class Employee {
 
     private double hourlyRate;
 
-
     public Employee() {}
 
     public Employee(int employeeId, User user, String firstName, String lastName, double hourlyRate) {
