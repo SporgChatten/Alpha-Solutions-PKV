@@ -12,22 +12,24 @@ public class UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+    private final UserRowMapper userRowMapper = new UserRowMapper();
+
     public UserRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<User> findAll() {
         String sql = "SELECT * FROM user";
-        return jdbcTemplate.query(sql, new UserRowMapper());
+        return jdbcTemplate.query(sql, userRowMapper);
     }
     public User findUserByUserName(String username) {
         String sql = "SELECT * FROM user WHERE username = ?";
-        return jdbcTemplate.queryForObject(sql, new UserRowMapper(), username);
+        return jdbcTemplate.queryForObject(sql, userRowMapper, username);
     }
 
     public User findById(int userId) {
         String sql = "SELECT * FROM user WHERE user_id = ?";
-        return jdbcTemplate.queryForObject(sql, new UserRowMapper(), userId);
+        return jdbcTemplate.queryForObject(sql, userRowMapper, userId);
     }
 
     public void create(User user) {

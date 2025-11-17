@@ -11,6 +11,7 @@ import java.util.List;
 public class TaskRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final TaskRowMapper taskRowMapper = new TaskRowMapper();
 
     public TaskRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -18,12 +19,12 @@ public class TaskRepository {
 
     public List<Task> findAll() {
         String sql = "SELECT * FROM task";
-        return jdbcTemplate.query(sql, new TaskRowMapper());
+        return jdbcTemplate.query(sql, taskRowMapper);
     }
 
     public Task findById(int taskId) {
         String sql = "SELECT * FROM task WHERE task_id = ?";
-        return jdbcTemplate.queryForObject(sql, new TaskRowMapper(), taskId);
+        return jdbcTemplate.queryForObject(sql, taskRowMapper, taskId);
     }
 
     public void create(Task task) {

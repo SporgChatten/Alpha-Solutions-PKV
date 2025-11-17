@@ -1,6 +1,7 @@
 package com.alpha.solutionspkv.Controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -10,4 +11,10 @@ public class ProjectController {
     public String projectPage(){
         return "project";
     }
+    @GetMapping("/dashboard")
+    public String showDashboard(Model model) {
+        // her kan du evt. hente bruger-specifik data
+        return "dashboard";
+    }
+
 }

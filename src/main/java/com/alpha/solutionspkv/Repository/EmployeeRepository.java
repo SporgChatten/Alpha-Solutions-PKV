@@ -13,18 +13,20 @@ public class EmployeeRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+    private final EmployeeRowMapper employeeRowMapper = new EmployeeRowMapper();
+
     public EmployeeRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<Employee> findAll() {
         String sql = "SELECT * FROM employee";
-        return jdbcTemplate.query(sql, new EmployeeRowMapper());
+        return jdbcTemplate.query(sql, employeeRowMapper);
     }
 
     public Employee findById(int id) {
         String sql = "SELECT * FROM employee WHERE employee_id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new EmployeeRowMapper());
+        return jdbcTemplate.queryForObject(sql, employeeRowMapper, id);
     }
 
     public void create(Employee employee) {

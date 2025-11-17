@@ -12,6 +12,8 @@ public class ProjectRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+    private final ProjectRowMapper projectRowMapper = new ProjectRowMapper();
+
     public ProjectRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
 
@@ -19,12 +21,12 @@ public class ProjectRepository {
 
     public List<Project> findAll() {
         String sql = "SELECT * FROM project";
-        return jdbcTemplate.query(sql, new ProjectRowMapper());
+        return jdbcTemplate.query(sql, projectRowMapper);
     }
 
     public Project findById(int projectId) {
         String sql = "SELECT * FROM project WHERE project_id = ?";
-        return jdbcTemplate.queryForObject(sql, new ProjectRowMapper(), projectId);
+        return jdbcTemplate.queryForObject(sql, projectRowMapper, projectId);
     }
 
     public void create(Project project) {
