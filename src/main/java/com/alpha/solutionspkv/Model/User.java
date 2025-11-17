@@ -1,14 +1,13 @@
 package com.alpha.solutionspkv.Model;
 
 public class User {
-        private int userId;
-        private String username;
-        private String email;
-        private String password;
-        private Role role; // enum: ADMIN, MANAGER, EMPLOYEE
-        private String firstName;
-        private String lastName;
-
+    private int userId;
+    private String username;
+    private String email;
+    private String password;
+    private Role role; // enum: ADMIN, MANAGER, EMPLOYEE
+    private String firstName;
+    private String lastName;
 
     public User() {}
 
@@ -78,5 +77,3 @@ public class User {
         this.lastName = lastName;
     }
 }
-
-
