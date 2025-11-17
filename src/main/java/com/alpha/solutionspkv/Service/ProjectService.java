@@ -2,7 +2,6 @@ package com.alpha.solutionspkv.Service;
 
 import com.alpha.solutionspkv.Model.Project;
 import com.alpha.solutionspkv.Repository.ProjectRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,11 +9,9 @@ import java.util.List;
 @Service
 public class ProjectService {
 
-    private final JdbcTemplate jdbcTemplate;
     private final ProjectRepository projectRepository;
 
-    public ProjectService(JdbcTemplate jdbcTemplate, ProjectRepository projectRepository) {
-        this.jdbcTemplate = jdbcTemplate;
+    public ProjectService(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
     }
 

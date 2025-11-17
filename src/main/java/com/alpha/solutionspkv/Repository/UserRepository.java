@@ -20,6 +20,10 @@ public class UserRepository {
         String sql = "SELECT * FROM user";
         return jdbcTemplate.query(sql, new UserRowMapper());
     }
+    public User findUserByUserName(String username) {
+        String sql = "SELECT * FROM user WHERE username = ?";
+        return jdbcTemplate.queryForObject(sql, new UserRowMapper(), username);
+    }
 
     public User findById(int userId) {
         String sql = "SELECT * FROM user WHERE user_id = ?";
