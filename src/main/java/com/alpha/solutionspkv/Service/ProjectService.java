@@ -26,9 +26,11 @@ public class ProjectService {
     public void create(Project project) {
         projectRepository.create(project);
     }
+
     public void update(Project project) {
         projectRepository.update(project);
     }
+
     public void delete(int id) {
         projectRepository.delete(id);
     }

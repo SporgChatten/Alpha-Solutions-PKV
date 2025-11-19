@@ -11,9 +11,7 @@ public class TaskService {
 
     private TaskRepository taskRepository;
 
-    private TaskService taskService;
-
-    public TaskService(TaskRepository taskRepository, TaskService taskService) {
+    public TaskService(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 

@@ -11,12 +11,10 @@ import java.util.List;
 public class ProjectRepository {
 
     private final JdbcTemplate jdbcTemplate;
-
     private final ProjectRowMapper projectRowMapper = new ProjectRowMapper();
 
     public ProjectRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-
     }
 
     public List<Project> findAll() {
@@ -53,13 +51,13 @@ public class ProjectRepository {
                 project.getStartDate(),
                 project.getEndDate(),
                 project.getBudget(),
-                project.getCreatedBy() != null ? project.getCreatedBy().getUserId() : null,
+                project.getCreatedBy() == null ? null : project.getCreatedBy().getUserId(),
                 project.getProjectId()
         );
     }
+
     public void delete(int id) {
         String sql = "DELETE FROM project WHERE project_id = ?";
         jdbcTemplate.update(sql, id);
     }
 }
-
