@@ -2,25 +2,23 @@ package com.alpha.solutionspkv.Model;
 
 public class Task {
     private int taskId;
-    private Project project;
-    private Employee assignedTo;
     private String name;
     private String description;
     private double estimatedHours;
     private double actualHours;
-    private double cost;
+    private Status status;
+    private ProjectMember assignedTo;
 
     public Task() {}
 
-    public Task(int taskId, Project project, Employee assignedTo, String name, String description, double estimatedHours, double actualHours, double cost) {
+    public Task(int taskId, ProjectMember assignedTo, String name, String description, double estimatedHours, double actualHours, Status status) {
         this.taskId = taskId;
-        this.project = project;
         this.assignedTo = assignedTo;
         this.name = name;
         this.description = description;
         this.estimatedHours = estimatedHours;
         this.actualHours = actualHours;
-        this.cost = cost;
+        this.status = status;
     }
 
     public int getTaskId() {
@@ -31,19 +29,11 @@ public class Task {
         this.taskId = taskId;
     }
 
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public Employee getAssignedTo() {
+    public ProjectMember getAssignedTo() {
         return assignedTo;
     }
 
-    public void setAssignedTo(Employee assignedTo) {
+    public void setAssignedTo(ProjectMember assignedTo) {
         this.assignedTo = assignedTo;
     }
 
@@ -79,11 +69,15 @@ public class Task {
         this.actualHours = actualHours;
     }
 
-    public double getCost() {
-        return cost;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public enum Status {
+        TODO, IN_PROGRESS, DONE
     }
 }
