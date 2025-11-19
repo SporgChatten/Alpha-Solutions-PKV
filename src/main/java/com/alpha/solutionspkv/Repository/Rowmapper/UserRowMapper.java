@@ -24,9 +24,7 @@ public class UserRowMapper implements RowMapper<User> {
             user.setRole(Role.valueOf(roleString));
         }
 
-        // firstName & lastName kommer fra employee-tabellen (via JOIN)
-        user.setFirstName(rs.getString("first_name"));
-        user.setLastName(rs.getString("last_name"));
+
 
         return user;
     }

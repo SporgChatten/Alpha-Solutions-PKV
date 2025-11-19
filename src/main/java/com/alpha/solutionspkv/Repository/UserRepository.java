@@ -24,7 +24,13 @@ public class UserRepository {
     }
     public User findUserByUserName(String username) {
         String sql = "SELECT * FROM user WHERE username = ?";
-        return jdbcTemplate.queryForObject(sql, userRowMapper, username);
+        List<User> users = jdbcTemplate.query(sql, userRowMapper, username);
+
+        if (users.isEmpty()) {
+            return null;
+        }
+
+        return users.get(0);
     }
 
     public User findById(int userId) {

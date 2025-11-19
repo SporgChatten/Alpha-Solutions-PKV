@@ -1,6 +1,6 @@
 -- ========== USERS ==========
 INSERT INTO user (username, email, password, role) VALUES
-('admin', 'admin@alphasolutions.com', 'hashed_pw_admin', 'ADMIN'),
+('admin', 'admin@alphasolutions.com', 'admin', 'ADMIN'),
 ('manager1', 'manager1@alphasolutions.com', 'hashed_pw_mgr1', 'MANAGER'),
 ('employee_jens', 'jens@alphasolutions.com', 'hashed_pw_jens', 'EMPLOYEE'),
 ('employee_anna', 'anna@alphasolutions.com', 'hashed_pw_anna', 'EMPLOYEE'),

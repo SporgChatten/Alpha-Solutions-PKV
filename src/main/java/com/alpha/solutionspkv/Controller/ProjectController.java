@@ -1,7 +1,9 @@
 package com.alpha.solutionspkv.Controller;
 
 import com.alpha.solutionspkv.Model.Project;
+import com.alpha.solutionspkv.Model.User;
 import com.alpha.solutionspkv.Service.ProjectService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +38,12 @@ public class ProjectController {
     }
 
     @PostMapping("/projects/create")
-    public String createProject(Project project) {
+    public String createProject(Project project, HttpSession session) {
+        User loggedUser = (User) session.getAttribute("loggedUser");
+        if (loggedUser == null) {
+            return "redirect:/login";
+        }
+        project.setCreatedBy(loggedUser);
         projectService.create(project);
         return "redirect:/projects";
     }
