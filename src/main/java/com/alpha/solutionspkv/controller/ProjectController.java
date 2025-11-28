@@ -42,7 +42,7 @@ public class ProjectController {
             return "redirect:/login";
         }
         model.addAttribute("project", new Project());
-        return "projects/form.html";
+        return "projects/form";
     }
 
     @PostMapping
