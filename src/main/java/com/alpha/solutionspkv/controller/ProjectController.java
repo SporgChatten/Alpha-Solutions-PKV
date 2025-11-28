@@ -98,4 +98,14 @@ public class ProjectController {
         projectService.deleteProject(id);
         return "redirect:/projects";
     }
+
+
+    @PostMapping("/{id}/task")
+    public String showProjectTasks(@PathVariable int id) {
+        if (!checkLogin()) {
+            return "redirect:/login";
+        }
+        projectService.deleteProject(id);
+        return "projects/view";
+    }
 }
