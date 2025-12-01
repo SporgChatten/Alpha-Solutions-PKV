@@ -6,7 +6,7 @@ public class User {
     private String email;
     private String password;
     private Role role;
-    
+
     public User() {}
 
     public User(String username, String email, String password, Role role) {
@@ -22,6 +22,10 @@ public class User {
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public enum Role {
+        ADMIN, PROJECT_MANAGER, EMPLOYEE
     }
 
     public int getId() {
@@ -72,9 +76,5 @@ public class User {
                 ", email='" + email + '\'' +
                 ", role=" + role +
                 '}';
-    }
-    
-    public enum Role {
-        ADMIN, PROJECT_MANAGER, USER
     }
 }

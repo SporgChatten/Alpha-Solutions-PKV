@@ -9,8 +9,8 @@ INSERT INTO users (username, email, password, role) VALUES
 ('admin', 'admin@example.com', 'admin123', 'ADMIN'),
 ('john_doe', 'john@example.com', 'password123', 'PROJECT_MANAGER'),
 ('jane_smith', 'jane@example.com', 'password123', 'PROJECT_MANAGER'),
-('bob_johnson', 'bob@example.com', 'password123', 'USER'),
-('alice_wilson', 'alice@example.com', 'password123', 'USER');
+('bob_johnson', 'bob@example.com', 'password123', 'EMPLOYEE'),
+('alice_wilson', 'alice@example.com', 'password123', 'EMPLOYEE');
 
 INSERT INTO tasks (name, description, project_id) VALUES
 ('Setup Product Database', 'Create database schema for storing product information including categories, prices, and inventory', 1),

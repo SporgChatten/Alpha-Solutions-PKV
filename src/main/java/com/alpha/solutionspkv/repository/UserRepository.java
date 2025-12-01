@@ -59,14 +59,14 @@ public class UserRepository {
     // Save new user
     public void save(User user) {
         String sql = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
-        String role = user.getRole() != null ? user.getRole().name() : User.Role.USER.name();
+        String role = user.getRole() != null ? user.getRole().name() : User.Role.EMPLOYEE.name();
         jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getPassword(), role);
     }
 
     // Update user
     public void update(User user) {
         String sql = "UPDATE users SET username = ?, email = ?, password = ?, role = ? WHERE id = ?";
-        String role = user.getRole() != null ? user.getRole().name() : User.Role.USER.name();
+        String role = user.getRole() != null ? user.getRole().name() : User.Role.EMPLOYEE.name();
         jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getPassword(), role, user.getId());
     }
 
