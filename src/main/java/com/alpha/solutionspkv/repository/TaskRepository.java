@@ -1,6 +1,5 @@
 package com.alpha.solutionspkv.repository;
 
-import com.alpha.solutionspkv.model.Project;
 import com.alpha.solutionspkv.model.Task;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -10,6 +9,7 @@ import java.util.List;
 
 @Repository
 public class TaskRepository {
+
     private final JdbcTemplate jdbcTemplate;
 
     private final RowMapper<Task> TaskRowMapper = (rs, rowNum) -> {

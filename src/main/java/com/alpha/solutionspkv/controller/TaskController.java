@@ -25,13 +25,9 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    private boolean checkLogin() {
-        return sessionService.isLoggedIn();
-    }
-
     @GetMapping
     public String listTasks(@PathVariable int projectId, Model model) {
-        if (!checkLogin()) return "redirect:/login";
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
 
         Project project = projectService.getProjectById(projectId);
         List<Task> tasks = taskService.findByProjectId(projectId);
@@ -44,7 +40,8 @@ public class TaskController {
 
     @GetMapping("/new")
     public String showNewTaskForm(@PathVariable int projectId, Model model) {
-        if (!checkLogin()) return "redirect:/login";
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
+
         Project project = projectService.getProjectById(projectId);
         Task task = new Task();
         task.setProjectId(projectId);
@@ -55,7 +52,8 @@ public class TaskController {
 
     @PostMapping("/new")
     public String saveTask(@PathVariable int projectId, @ModelAttribute Task task) {
-        if (!checkLogin()) return "redirect:/login";
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
+
         task.setProjectId(projectId);
         taskService.save(task);
         return "redirect:/projects/" + projectId + "/tasks";
@@ -65,7 +63,8 @@ public class TaskController {
     public String showEditTask(@PathVariable int projectId,
                                @PathVariable int id,
                                Model model) {
-        if (!checkLogin()) return "redirect:/login";
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
+
         Project project = projectService.getProjectById(projectId);
         Task task = taskService.findById(id);
         if (task == null) {
@@ -78,22 +77,19 @@ public class TaskController {
 
     @PostMapping("/{id}")
     public String updateTask(@PathVariable int projectId, @PathVariable int id, @ModelAttribute Task task) {
-        if (!checkLogin()) return "redirect:/login";
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
+
         task.setId(id);
         task.setProjectId(projectId);
         taskService.update(task);
         return "redirect:/projects/" + projectId + "/tasks";
     }
+
     @PostMapping("/{id}/delete")
     public String deleteTask(@PathVariable int projectId, @PathVariable int id) {
-        if (!checkLogin()) {
-            return "redirect:/login";
-        }
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
+
         taskService.deleteById(id);
         return "redirect:/projects/" + projectId + "/tasks";
     }
-
-
-
-
 }

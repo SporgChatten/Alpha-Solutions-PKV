@@ -11,17 +11,31 @@ public class TaskService {
 
     private final TaskRepository taskRepository;
 
-    public TaskService(TaskRepository taskRepository) { this.taskRepository = taskRepository; }
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
-    public List<Task> findAll() { return taskRepository.findAll(); }
+    public List<Task> findAll() {
+        return taskRepository.findAll();
+    }
 
-    public List<Task> findByProjectId(int projectId) { return taskRepository.findByProjectId(projectId); }
+    public List<Task> findByProjectId(int projectId) {
+        return taskRepository.findByProjectId(projectId);
+    }
 
-    public Task findById(int id) { return taskRepository.findById(id); }
+    public Task findById(int id) {
+        return taskRepository.findById(id);
+    }
 
-    public void save(Task task) { taskRepository.save(task); }
+    public void save(Task task) {
+        taskRepository.save(task);
+    }
 
-    public void update(Task task) { taskRepository.update(task); }
+    public void update(Task task) {
+        taskRepository.update(task);
+    }
 
-    public void deleteById(int id) { taskRepository.deleteById(id); }
+    public void deleteById(int id) {
+        taskRepository.deleteById(id);
+    }
 }

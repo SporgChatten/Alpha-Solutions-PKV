@@ -23,9 +23,8 @@ public class AuthController {
     @GetMapping("/login")
     public String showLoginPage(Model model) {
         // If already logged in, redirect to projects
-        if (sessionService.isLoggedIn()) {
-            return "redirect:/projects";
-        }
+        if (sessionService.isLoggedIn()) return "redirect:/projects";
+
         model.addAttribute("user", new User());
         return "auth/login";
     }
