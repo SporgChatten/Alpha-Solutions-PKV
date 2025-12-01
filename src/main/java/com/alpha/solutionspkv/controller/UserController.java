@@ -54,6 +54,7 @@ public class UserController {
         User user = userService.getUserById(id);
         if (user != null) {
             model.addAttribute("user", user);
+            model.addAttribute("currentUser", sessionService.getCurrentUser());
             return "users/view";
         }
         return "redirect:/users";
@@ -84,7 +85,18 @@ public class UserController {
     public String deleteUser(@PathVariable int id) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
 
+        // Check if user is deleting themselves
+        User currentUser = sessionService.getCurrentUser();
+        boolean isDeletingSelf = (currentUser != null && currentUser.getId() == id);
+
         userService.deleteUser(id);
+
+        // If user deleted themselves, logout and redirect to login
+        if (isDeletingSelf) {
+            sessionService.logout();
+            return "redirect:/login";
+        }
+
         return "redirect:/users";
     }
 }
