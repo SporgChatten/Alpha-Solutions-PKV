@@ -9,7 +9,7 @@
         .header { background-color: #ffc107; color: black; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
         textarea { height: 100px; resize: vertical; }
         .btn { padding: 10px 20px; text-decoration: none; border-radius: 5px; margin: 5px; display: inline-block; border: none; cursor: pointer; }
         .btn-warning { background-color: #ffc107; color: black; }
@@ -36,6 +36,16 @@
         <div class="form-group">
             <label for="password">Password:</label>
             <input type="password" id="password" th:field="*{password}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Role:</label>
+            <select id="role" th:field="*{role}" required>
+                <option value="">Select Role</option>
+                <option value="USER">User</option>
+                <option value="PROJECT_MANAGER">Project Manager</option>
+                <option value="ADMIN">Admin</option>
+            </select>
         </div>
 
         <div>

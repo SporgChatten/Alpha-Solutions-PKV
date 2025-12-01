@@ -41,6 +41,11 @@
         </div>
 
         <div class="field">
+            <div class="label">Role:</div>
+            <div th:text="${user.role != null ? user.role.name().replace('_', ' ') : 'USER'}"></div>
+        </div>
+
+        <div class="field">
             <div class="label">Password:</div>
             <div>••••••••</div> <!-- Don't show actual password -->
         </div>

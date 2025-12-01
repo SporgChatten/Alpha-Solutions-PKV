@@ -5,12 +5,12 @@ INSERT INTO projects (name, description) VALUES
 ('Blog Platform', 'A content management system for creating, editing, and publishing blog posts with user authentication'),
 ('Inventory Management', 'A comprehensive system for tracking products, managing stock levels, and generating reports');
 
-INSERT INTO users (username, email, password) VALUES
-('admin', 'admin@example.com', 'admin123'),
-('john_doe', 'john@example.com', 'password123'),
-('jane_smith', 'jane@example.com', 'mypassword'),
-('bob_johnson', 'bob@example.com', 'bobsecure'),
-('alice_wilson', 'alice@example.com', 'alicepass');
+INSERT INTO users (username, email, password, role) VALUES
+('admin', 'admin@example.com', 'admin123', 'ADMIN'),
+('john_doe', 'john@example.com', 'password123', 'PROJECT_MANAGER'),
+('jane_smith', 'jane@example.com', 'password123', 'PROJECT_MANAGER'),
+('bob_johnson', 'bob@example.com', 'password123', 'USER'),
+('alice_wilson', 'alice@example.com', 'password123', 'USER');
 
 INSERT INTO tasks (name, description, project_id) VALUES
 ('Setup Product Database', 'Create database schema for storing product information including categories, prices, and inventory', 1),

@@ -18,6 +18,10 @@ public class UserRepository {
         user.setUsername(rs.getString("username"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
+        String roleStr = rs.getString("role");
+        if (roleStr != null) {
+            user.setRole(User.Role.valueOf(roleStr));
+        }
         return user;
     };
 
@@ -54,14 +58,16 @@ public class UserRepository {
 
     // Save new user
     public void save(User user) {
-        String sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getPassword());
+        String sql = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
+        String role = user.getRole() != null ? user.getRole().name() : User.Role.USER.name();
+        jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getPassword(), role);
     }
 
     // Update user
     public void update(User user) {
-        String sql = "UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?";
-        jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getPassword(), user.getId());
+        String sql = "UPDATE users SET username = ?, email = ?, password = ?, role = ? WHERE id = ?";
+        String role = user.getRole() != null ? user.getRole().name() : User.Role.USER.name();
+        jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getPassword(), role, user.getId());
     }
 
     // Delete user
