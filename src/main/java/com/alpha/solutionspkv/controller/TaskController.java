@@ -61,5 +61,39 @@ public class TaskController {
         return "redirect:/projects/" + projectId + "/tasks";
     }
 
+    @GetMapping("/{id}/edit")
+    public String showEditTask(@PathVariable int projectId,
+                               @PathVariable int id,
+                               Model model) {
+        if (!checkLogin()) return "redirect:/login";
+        Project project = projectService.getProjectById(projectId);
+        Task task = taskService.findById(id);
+        if (task == null) {
+            return "redirect:/projects/" + projectId + "/tasks";
+        }
+        model.addAttribute("project", project);
+        model.addAttribute("task", task);
+        return "tasks/edit";
+    }
+
+    @PostMapping("/{id}")
+    public String updateTask(@PathVariable int projectId, @PathVariable int id, @ModelAttribute Task task) {
+        if (!checkLogin()) return "redirect:/login";
+        task.setId(id);
+        task.setProjectId(projectId);
+        taskService.update(task);
+        return "redirect:/projects/" + projectId + "/tasks";
+    }
+    @PostMapping("/{id}/delete")
+    public String deleteTask(@PathVariable int projectId, @PathVariable int id) {
+        if (!checkLogin()) {
+            return "redirect:/login";
+        }
+        taskService.deleteById(id);
+        return "redirect:/projects/" + projectId + "/tasks";
+    }
+
+
+
 
 }
