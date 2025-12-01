@@ -42,7 +42,7 @@ public class ProjectController {
             return "redirect:/login";
         }
         model.addAttribute("project", new Project());
-        return "projects/form.html";
+        return "projects/form";
     }
 
     @PostMapping
@@ -97,5 +97,15 @@ public class ProjectController {
         }
         projectService.deleteProject(id);
         return "redirect:/projects";
+    }
+
+
+    @PostMapping("/{id}/task")
+    public String showProjectTasks(@PathVariable int id) {
+        if (!checkLogin()) {
+            return "redirect:/login";
+        }
+        projectService.deleteProject(id);
+        return "projects/view";
     }
 }
