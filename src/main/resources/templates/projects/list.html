@@ -98,7 +98,7 @@
 
         <div class="user-info">
             <span>Welcome, <strong th:text="${currentUser.username}">User</strong>!</span>
-            <a href="/users" class="btn btn-secondary">Manage Users</a>
+            <a th:if="${currentUser.role != null && currentUser.role.name() == 'ADMIN'}" href="/users" class="btn btn-secondary">Manage Users</a>
             <a href="/logout" class="btn btn-danger">Logout</a>
         </div>
     </div>
