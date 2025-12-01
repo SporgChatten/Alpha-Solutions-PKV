@@ -7,6 +7,7 @@ INSERT INTO projects (name, description) VALUES
 
 INSERT INTO users (username, email, password, role) VALUES
 ('admin', 'admin@example.com', 'admin123', 'ADMIN'),
+('admin2', 'admin2@example.com', 'admin123', 'ADMIN'),
 ('john_doe', 'john@example.com', 'password123', 'PROJECT_MANAGER'),
 ('jane_smith', 'jane@example.com', 'password123', 'PROJECT_MANAGER'),
 ('bob_johnson', 'bob@example.com', 'password123', 'EMPLOYEE'),

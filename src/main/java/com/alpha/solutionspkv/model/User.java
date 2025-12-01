@@ -8,6 +8,7 @@ public class User {
     private Role role;
 
     public User() {}
+    public enum Role {ADMIN, PROJECT_MANAGER, EMPLOYEE}
 
     public User(String username, String email, String password, Role role) {
         this.username = username;
@@ -24,9 +25,6 @@ public class User {
         this.role = role;
     }
 
-    public enum Role {
-        ADMIN, PROJECT_MANAGER, EMPLOYEE
-    }
 
     public int getId() {
         return id;
@@ -66,6 +64,10 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public boolean canManageProjects() {
+        return role == Role.ADMIN || role == Role.PROJECT_MANAGER;
     }
 
     @Override

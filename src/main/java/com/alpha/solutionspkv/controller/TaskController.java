@@ -34,6 +34,7 @@ public class TaskController {
 
         model.addAttribute("project", project);
         model.addAttribute("tasks", tasks);
+        model.addAttribute("currentUser", sessionService.getCurrentUser());
 
         return "tasks/list";
     }
@@ -41,6 +42,7 @@ public class TaskController {
     @GetMapping("/new")
     public String showNewTaskForm(@PathVariable int projectId, Model model) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects/" + projectId + "/tasks";
 
         Project project = projectService.getProjectById(projectId);
         Task task = new Task();
@@ -53,6 +55,7 @@ public class TaskController {
     @PostMapping("/new")
     public String saveTask(@PathVariable int projectId, @ModelAttribute Task task) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects/" + projectId + "/tasks";
 
         task.setProjectId(projectId);
         taskService.save(task);
@@ -64,6 +67,7 @@ public class TaskController {
                                @PathVariable int id,
                                Model model) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects/" + projectId + "/tasks";
 
         Project project = projectService.getProjectById(projectId);
         Task task = taskService.findById(id);
@@ -78,6 +82,7 @@ public class TaskController {
     @PostMapping("/{id}")
     public String updateTask(@PathVariable int projectId, @PathVariable int id, @ModelAttribute Task task) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects/" + projectId + "/tasks";
 
         task.setId(id);
         task.setProjectId(projectId);
@@ -88,6 +93,7 @@ public class TaskController {
     @PostMapping("/{id}/delete")
     public String deleteTask(@PathVariable int projectId, @PathVariable int id) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects/" + projectId + "/tasks";
 
         taskService.deleteById(id);
         return "redirect:/projects/" + projectId + "/tasks";

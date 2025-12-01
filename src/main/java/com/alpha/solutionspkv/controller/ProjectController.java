@@ -36,6 +36,8 @@ public class ProjectController {
     public String showNewProjectForm(Model model) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
 
+        if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects";
+
         model.addAttribute("project", new Project());
         return "projects/form";
     }
@@ -43,6 +45,7 @@ public class ProjectController {
     @PostMapping
     public String saveProject(@ModelAttribute Project project) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects";
 
         projectService.saveProject(project);
         return "redirect:/projects";
@@ -63,6 +66,7 @@ public class ProjectController {
     @GetMapping("/{id}/edit")
     public String showEditForm(@PathVariable int id, Model model) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects";
 
         Project project = projectService.getProjectById(id);
         if (project != null) {
@@ -75,6 +79,7 @@ public class ProjectController {
     @PostMapping("/{id}")
     public String updateProject(@PathVariable int id, @ModelAttribute Project project) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects";
 
         project.setId(id);
         projectService.updateProject(project);
@@ -84,6 +89,7 @@ public class ProjectController {
     @PostMapping("/{id}/delete")
     public String deleteProject(@PathVariable int id) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects";
 
         projectService.deleteProject(id);
         return "redirect:/projects";
