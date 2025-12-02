@@ -7,8 +7,8 @@ public class User {
     private String password;
     private Role role;
 
+    public enum Role {ADMIN, PROJECT_MANAGER, EMPLOYEE;}
     public User() {}
-    public enum Role {ADMIN, PROJECT_MANAGER, EMPLOYEE}
 
     public User(String username, String email, String password, Role role) {
         this.username = username;

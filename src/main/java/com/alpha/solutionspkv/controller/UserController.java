@@ -36,7 +36,7 @@ public class UserController {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
 
         model.addAttribute("user", new User());
-        return "users/form.html";
+        return "users/form";
     }
 
     @PostMapping
