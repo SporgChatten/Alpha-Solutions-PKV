@@ -21,5 +21,6 @@ CREATE TABLE tasks (
     name VARCHAR(255) NOT NULL,
     description TEXT,
     project_id INT NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'IN_PROGRESS',
     FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE
 );

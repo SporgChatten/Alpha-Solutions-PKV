@@ -5,14 +5,17 @@ public class Task {
     private int projectId;
     private String name;
     private String description;
+    private Status status;
 
+    public enum Status {IN_PROGRESS, COMPLETED, CANCELLED, PAUSED}
     public Task() {}
 
-    public Task(int id, int projectId, String name, String description) {
+    public Task(int id, int projectId, String name, String description, Status status) {
         this.id = id;
         this.projectId = projectId;
         this.name = name;
         this.description = description;
+        this.status = status;
     }
 
     public int getId() {
@@ -45,6 +48,14 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     @Override
