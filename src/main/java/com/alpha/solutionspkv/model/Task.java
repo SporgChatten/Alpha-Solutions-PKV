@@ -6,16 +6,18 @@ public class Task {
     private String name;
     private String description;
     private Status status;
+    private Integer parentTaskId;
 
-    public enum Status {IN_PROGRESS, COMPLETED, CANCELLED, PAUSED}
+    public enum Status {IN_PROGRESS, COMPLETED, CANCELLED, PAUSED, NOT_STARTED}
     public Task() {}
 
-    public Task(int id, int projectId, String name, String description, Status status) {
+    public Task(int id, int projectId, String name, String description, Status status, Integer parentTaskId) {
         this.id = id;
         this.projectId = projectId;
         this.name = name;
         this.description = description;
         this.status = status;
+        this.parentTaskId = parentTaskId;
     }
 
     public int getId() {
@@ -56,6 +58,14 @@ public class Task {
 
     public Status getStatus() {
         return status;
+    }
+
+    public Integer getParentTaskId() {
+        return parentTaskId;
+    }
+
+    public void setParentTaskId(Integer parentTaskId) {
+        this.parentTaskId = parentTaskId;
     }
 
     @Override

@@ -23,6 +23,7 @@ public class TaskRepository {
         if (statusStr != null) {
             task.setStatus(Task.Status.valueOf(statusStr));
         }
+        task.setParentTaskId(rs.getObject("parent_task_id", Integer.class));
 
         return task;
     };
@@ -41,6 +42,11 @@ public class TaskRepository {
         return jdbcTemplate.query(sql, TaskRowMapper, projectId);
     }
 
+    public List<Task> findSubtasks(int parentTaskId) {
+        String sql = "SELECT * FROM tasks WHERE parent_task_id = ?";
+        return jdbcTemplate.query(sql, TaskRowMapper, parentTaskId);
+    }
+
     public Task findById(int id) {
         String sql = "SELECT * FROM tasks WHERE id = ?";
         List<Task> tasks = jdbcTemplate.query(sql, TaskRowMapper, id);
@@ -48,15 +54,17 @@ public class TaskRepository {
     }
 
     public void save(Task task) {
-        String sql = "INSERT INTO tasks (project_id, name, description, status) VALUES (?, ?, ?, ?)";
-        String status = task.getStatus() != null ? task.getStatus().name() : Task.Status.IN_PROGRESS.name();
-        jdbcTemplate.update(sql, task.getProjectId(), task.getName(), task.getDescription(), status);
+        String sql = "INSERT INTO tasks (project_id, name, description, status, parent_task_id) VALUES (?, ?, ?, ?, ?)";
+        String status = task.getStatus() != null ? task.getStatus().name() : Task.Status.NOT_STARTED.name();
+        jdbcTemplate.update(sql, task.getProjectId(), task.getName(), task.getDescription(), status,
+                task.getParentTaskId()
+        );
     }
 
     public void update(Task task) {
-        String sql = "UPDATE tasks SET name = ?, description = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE tasks SET name = ?, description = ?, status = ?, parent_task_id = ? WHERE id = ?";
         String status = task.getStatus() != null ? task.getStatus().name() : Task.Status.IN_PROGRESS.name();
-        jdbcTemplate.update(sql, task.getName(), task.getDescription(), status, task.getId());
+        jdbcTemplate.update(sql, task.getName(), task.getDescription(), status, task.getParentTaskId(), task.getId());
     }
 
     public  void deleteById(int id) {

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Subtask</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 60px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .btn-success { background-color: #28a745; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1 th:text="'Edit Subtask: ' + ${task.name}"></h1>
+
+    <form th:action="@{/projects/{projectId}/tasks/{taskId}/subtasks/update(
+                            projectId=${project.id},
+                            taskId=${task.id})}"
+          method="post">
+
+        <input type="hidden" name="id" th:value="${task.id}">
+        <input type="hidden" name="projectId" th:value="${project.id}">
+        <input type="hidden" name="parentTaskId" th:value="${task.parentTaskId}">
+
+        <label>Name</label>
+        <input type="text" name="name" th:value="${task.name}" required>
+
+        <label>Description</label>
+        <textarea name="description" rows="5" th:text="${task.description}"></textarea>
+
+        <label>Status</label>
+        <select name="status">
+            <option th:selected="${task.status == 'IN_PROGRESS'}">IN_PROGRESS</option>
+            <option th:selected="${task.status == 'COMPLETED'}">COMPLETED</option>
+            <option th:selected="${task.status == 'PAUSED'}">PAUSED</option>
+            <option th:selected="${task.status == 'CANCELLED'}">CANCELLED</option>
+        </select>
+
+        <button class="btn btn-success" type="submit">Save</button>
+
+        <a th:href="@{/projects/{projectId}/tasks/{parentId}/subtasks(
+                        projectId=${project.id},
+                        parentId=${task.parentTaskId})}"
+           class="btn btn-secondary">
+            Back
+        </a>
+    </form>
+
+</div>
+
+</body>
+</html>

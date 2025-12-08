@@ -30,7 +30,7 @@ public class TaskController {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
 
         Project project = projectService.getProjectById(projectId);
-        List<Task> tasks = taskService.findByProjectId(projectId);
+        List<Task> tasks = taskService.findRootTasksByProjectId(projectId);
 
         model.addAttribute("project", project);
         model.addAttribute("tasks", tasks);
@@ -98,4 +98,67 @@ public class TaskController {
         taskService.deleteById(id);
         return "redirect:/projects/" + projectId + "/tasks";
     }
+
+    @GetMapping("/{id}/subtasks/new")
+    public String showCreateSubtaskForm(@PathVariable int projectId,
+                                        @PathVariable int id,
+                                        Model model) {
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects())
+            return "redirect:/projects/" + projectId + "/tasks";
+
+        Task subtask = new Task();
+        subtask.setProjectId(projectId);
+        subtask.setParentTaskId(id);
+
+        model.addAttribute("task", subtask);
+        model.addAttribute("project", projectService.getProjectById(projectId));
+        model.addAttribute("parentTaskId", id);
+
+        return "tasks/subtaskForm";
+    }
+
+    @PostMapping("/{taskId}/subtasks")
+    public String createSubtask(@PathVariable int projectId,
+                                @PathVariable int taskId,
+                                @ModelAttribute Task task) {
+
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects())
+            return "redirect:/projects/" + projectId + "/tasks";
+        task.setProjectId(projectId);
+        task.setParentTaskId(taskId);
+        taskService.save(task);
+        return "redirect:/projects/" + projectId + "/tasks";
+    }
+
+    @GetMapping("/{taskId}/subtasks")
+    public String listSubtasks(@PathVariable int projectId,
+                               @PathVariable int taskId,
+                               Model model) {
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
+
+        Project project = projectService.getProjectById(projectId);
+        Task parentTask = taskService.findById(taskId);
+        List<Task> subtasks = taskService.findSubTasks(taskId);
+
+        model.addAttribute("project", project);
+        model.addAttribute("parentTask", parentTask);
+        model.addAttribute("subtasks", subtasks);
+        model.addAttribute("currentUser", sessionService.getCurrentUser());
+
+        return "tasks/subtaskList";
+    }
+    @PostMapping("/{taskId}/subtasks/{subtaskId}/delete")
+    public String deleteSubtask(@PathVariable int projectId,
+                                @PathVariable int taskId,
+                                @PathVariable int subtaskId) {
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects())
+            return "redirect:/projects/" + projectId + "/tasks";
+
+        taskService.deleteById(subtaskId);
+        return "redirect:/projects/" + projectId + "/tasks/" + taskId + "/subtasks";
+    }
+
 }

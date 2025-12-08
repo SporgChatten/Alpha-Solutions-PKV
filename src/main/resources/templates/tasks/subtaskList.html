@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Subtasks</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            background: white;
+            margin-top: 40px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .btn {
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: .2s;
+            display: inline-block;
+        }
+
+        .btn-secondary { background-color: #6c757d; color: white; }
+        .btn-success   { background-color: #28a745; color: white; }
+        .btn-danger    { background-color: #dc3545; color: white; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+            vertical-align: middle;
+            word-break: break-word;
+        }
+
+        th {
+            background-color: #f9f9f9;
+            font-weight: bold;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .empty-message {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1 th:text="'Subtasks for: ' + ${parentTask.name}"></h1>
+        <a th:href="@{/projects/{projectId}/tasks(projectId=${project.id})}"
+           class="btn btn-secondary">Back</a>
+    </div>
+
+    <a th:if="${currentUser.canManageProjects()}"
+       th:href="@{/projects/{projectId}/tasks/{taskId}/subtasks/new(projectId=${project.id}, taskId=${parentTask.id})}"
+       class="btn btn-success"
+       style="margin-bottom: 20px;">
+        Add Subtask
+    </a>
+
+    <table th:if="${!#lists.isEmpty(subtasks)}">
+        <thead>
+        <tr>
+            <th style="width: 80px;">ID</th>
+            <th style="width: 200px;">Subtask</th>
+            <th>Description</th>
+            <th style="width: 160px;">Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="sub : ${subtasks}">
+            <td th:text="${sub.id}"></td>
+            <td th:text="${sub.name}"></td>
+            <td th:text="${#strings.abbreviate(sub.description, 100)}"></td>
+
+            <td>
+                <div class="actions">
+
+
+                    <form th:if="${currentUser.canManageProjects()}"
+                          th:action="@{/projects/{projectId}/tasks/{taskId}/subtasks/{subtaskId}/delete(
+                                      projectId=${project.id},
+                                      taskId=${parentTask.id},
+                                      subtaskId=${sub.id})}"
+                          method="post">
+
+                        <button class="btn btn-danger"
+                                onclick="return confirm('Delete this subtask?')">
+                            Delete
+                        </button>
+                    </form>
+
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${#lists.isEmpty(subtasks)}" class="empty-message">
+        <h3>No subtasks found</h3>
+        <p th:if="${currentUser.canManageProjects()}">Start by creating one above.</p>
+    </div>
+
+</div>
+
+</body>
+</html>
