@@ -82,8 +82,9 @@
         <select name="status">
             <option th:selected="${task.status == T(com.alpha.solutionspkv.model.Task.Status).IN_PROGRESS}" value="IN_PROGRESS">IN_PROGRESS</option>
             <option th:selected="${task.status == T(com.alpha.solutionspkv.model.Task.Status).COMPLETED}" value="COMPLETED">COMPLETED</option>
-            <option th:selected="${task.status == T(com.alpha.solutionspkv.model.Task.Status).PAUSED}" value="PAUSED">PAUSED</option>
             <option th:selected="${task.status == T(com.alpha.solutionspkv.model.Task.Status).CANCELLED}" value="CANCELLED">CANCELLED</option>
+            <option th:selected="${task.status == T(com.alpha.solutionspkv.model.Task.Status).PAUSED}" value="PAUSED">PAUSED</option>
+            <option th:selected="${task.status == T(com.alpha.solutionspkv.model.Task.Status).NOT_STARTED}" value="NOT_STARTED">NOT_STARTED</option>
         </select>
 
         <button class="btn btn-success" type="submit">Save</button>
