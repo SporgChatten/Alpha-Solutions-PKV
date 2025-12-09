@@ -14,14 +14,13 @@ public class UserRepository {
 
     private final RowMapper<User> userRowMapper = (rs, rowNum) -> {
         User user = new User();
+
         user.setId(rs.getInt("id"));
         user.setUsername(rs.getString("username"));
         user.setEmail(rs.getString("email"));
         user.setPassword(rs.getString("password"));
-        String roleStr = rs.getString("role");
-        if (roleStr != null) {
-            user.setRole(User.Role.valueOf(roleStr));
-        }
+        user.setRole(User.Role.valueOf(rs.getString("role")));
+
         return user;
     };
 

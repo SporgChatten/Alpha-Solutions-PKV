@@ -18,6 +18,7 @@ public class ProjectRepository {
         project.setId(rs.getInt("id"));
         project.setName(rs.getString("name"));
         project.setDescription(rs.getString("description"));
+
         return project;
     };
 
