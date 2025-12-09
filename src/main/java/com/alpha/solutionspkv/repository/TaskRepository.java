@@ -19,6 +19,12 @@ public class TaskRepository {
         task.setProjectId(rs.getInt("project_id"));
         task.setName(rs.getString("name"));
         task.setDescription(rs.getString("description"));
+        String statusStr = rs.getString("status");
+        if (statusStr != null) {
+            task.setStatus(Task.Status.valueOf(statusStr));
+        }
+        task.setParentTaskId(rs.getObject("parent_task_id", Integer.class));
+
         return task;
     };
 
@@ -33,23 +39,32 @@ public class TaskRepository {
 
     public List<Task> findByProjectId(int projectId) {
         String sql = "SELECT * FROM tasks WHERE project_id = ?";
-        return jdbcTemplate.query(sql, new Object[]{projectId}, TaskRowMapper);
+        return jdbcTemplate.query(sql, TaskRowMapper, projectId);
+    }
+
+    public List<Task> findSubtasks(int parentTaskId) {
+        String sql = "SELECT * FROM tasks WHERE parent_task_id = ?";
+        return jdbcTemplate.query(sql, TaskRowMapper, parentTaskId);
     }
 
     public Task findById(int id) {
         String sql = "SELECT * FROM tasks WHERE id = ?";
-        List<Task> tasks = jdbcTemplate.query(sql, new Object[]{id}, TaskRowMapper);
+        List<Task> tasks = jdbcTemplate.query(sql, TaskRowMapper, id);
         return tasks.isEmpty() ? null : tasks.get(0);
     }
 
     public void save(Task task) {
-        String sql = "INSERT INTO tasks (project_id, name, description) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, task.getProjectId(), task.getName(), task.getDescription());
+        String sql = "INSERT INTO tasks (project_id, name, description, status, parent_task_id) VALUES (?, ?, ?, ?, ?)";
+        String status = task.getStatus() != null ? task.getStatus().name() : Task.Status.NOT_STARTED.name();
+        jdbcTemplate.update(sql, task.getProjectId(), task.getName(), task.getDescription(), status,
+                task.getParentTaskId()
+        );
     }
 
     public void update(Task task) {
-        String sql = "UPDATE tasks SET name = ?, description = ? WHERE id = ?";
-        jdbcTemplate.update(sql, task.getName(), task.getDescription(), task.getId());
+        String sql = "UPDATE tasks SET name = ?, description = ?, status = ?, parent_task_id = ? WHERE id = ?";
+        String status = task.getStatus() != null ? task.getStatus().name() : Task.Status.IN_PROGRESS.name();
+        jdbcTemplate.update(sql, task.getName(), task.getDescription(), status, task.getParentTaskId(), task.getId());
     }
 
     public  void deleteById(int id) {

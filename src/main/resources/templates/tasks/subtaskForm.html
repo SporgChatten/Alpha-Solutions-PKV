@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Subtask</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        .header { background-color: #007bff; color: white; padding: 20px; border-radius: 5px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        textarea { height: 120px; resize: vertical; }
+        .btn { padding: 10px 20px; text-decoration: none; border-radius: 5px; margin: 5px; display: inline-block; border: none; cursor: pointer; }
+        .btn-success { background-color: #007bff; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Add Subtask</h1>
+    </div>
+
+    <form th:action="@{/projects/{projectId}/tasks/{taskId}/subtasks(
+            projectId=${projectId}, taskId=${parentTaskId})}"
+          method="post"
+          th:object="${task}">
+
+        <input type="hidden" th:field="*{projectId}">
+        <input type="hidden" th:field="*{parentTaskId}">
+
+        <div class="form-group">
+            <label for="name">Subtask Name:</label>
+            <input type="text" id="name" th:field="*{name}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" th:field="*{description}" required></textarea>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-success">Save Subtask</button>
+            <a th:href="@{/projects/{projectId}/tasks(projectId=${projectId})}"
+               class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

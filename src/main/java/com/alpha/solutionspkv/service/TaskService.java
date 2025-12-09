@@ -4,6 +4,7 @@ import com.alpha.solutionspkv.model.Task;
 import com.alpha.solutionspkv.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,4 +39,22 @@ public class TaskService {
     public void deleteById(int id) {
         taskRepository.deleteById(id);
     }
+
+    public List<Task> findSubTasks(Integer parentTaskId) {
+        return taskRepository.findSubtasks(parentTaskId);
+    }
+
+    public List<Task> findRootTasksByProjectId(int projectId) {
+        List<Task> all = taskRepository.findByProjectId(projectId);
+
+        List<Task> roots = new ArrayList<>();
+        for (Task t : all) {
+            if (t.getParentTaskId() == null) {
+                roots.add(t);
+            }
+        }
+
+        return roots;
+    }
+
 }
