@@ -109,7 +109,7 @@ public class TaskController {
         model.addAttribute("project", projectService.getProjectById(projectId));
         model.addAttribute("parentTaskId", id);
 
-        return "tasks/subtaskForm";
+        return "tasks/subTaskForm";
     }
 
     @PostMapping("/{taskId}/subtasks")
@@ -137,7 +137,7 @@ public class TaskController {
         model.addAttribute("subtasks", subtasks);
         model.addAttribute("currentUser", sessionService.getCurrentUser());
 
-        return "tasks/subtaskList";
+        return "tasks/subTaskList";
     }
 
     @PostMapping("/{taskId}/subtasks/{subtaskId}/delete")
