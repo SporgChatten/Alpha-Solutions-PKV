@@ -54,6 +54,7 @@
 
         .btn-secondary { background-color: #6c757d; color: white; }
         .btn-success   { background-color: #28a745; color: white; }
+        .btn-warning   { background-color: #ffc107; color: black; }
         .btn-danger    { background-color: #dc3545; color: white; }
 
         table {
@@ -120,10 +121,16 @@
             <td th:text="${sub.id}"></td>
             <td th:text="${sub.name}"></td>
             <td th:text="${#strings.abbreviate(sub.description, 100)}"></td>
-
             <td>
                 <div class="actions">
-
+                    <a th:if="${currentUser.canManageProjects()}"
+                       th:href="@{/projects/{projectId}/tasks/{taskId}/subtasks/{subtaskId}/edit(
+                                      projectId=${project.id},
+                                      taskId=${parentTask.id},
+                                      subtaskId=${sub.id})}"
+                       class="btn btn-warning">
+                        Edit
+                    </a>
 
                     <form th:if="${currentUser.canManageProjects()}"
                           th:action="@{/projects/{projectId}/tasks/{taskId}/subtasks/{subtaskId}/delete(
@@ -131,13 +138,11 @@
                                       taskId=${parentTask.id},
                                       subtaskId=${sub.id})}"
                           method="post">
-
                         <button class="btn btn-danger"
                                 onclick="return confirm('Delete this subtask?')">
                             Delete
                         </button>
                     </form>
-
                 </div>
             </td>
         </tr>
