@@ -4,18 +4,21 @@ import org.springframework.lang.Nullable;
 
 public class Task {
     private int id;
+    private String name;
+    private String description;
+    private Status status;
     private int projectId;
     private @Nullable Integer parentTaskId;
 
     public enum Status {IN_PROGRESS, COMPLETED, CANCELLED, PAUSED, NOT_STARTED}
     public Task() {}
 
-    public Task(int id, int projectId, String name, String description, Status status, @Nullable Integer parentTaskId) {
+    public Task(int id, String name, String description, Status status, int projectId, @Nullable Integer parentTaskId) {
         this.id = id;
-        this.projectId = projectId;
         this.name = name;
         this.description = description;
         this.status = status;
+        this.projectId = projectId;
         this.parentTaskId = parentTaskId;
     }
 
@@ -25,14 +28,6 @@ public class Task {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
     }
 
     public String getName() {
@@ -59,6 +54,14 @@ public class Task {
         return status;
     }
 
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
+
     public @Nullable Integer getParentTaskId() {
         return parentTaskId;
     }
@@ -73,6 +76,9 @@ public class Task {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", status=" + status +
+                ", projectId=" + projectId +
+                ", parentTaskId=" + parentTaskId +
                 '}';
     }
 }
