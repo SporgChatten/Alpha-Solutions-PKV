@@ -121,7 +121,7 @@ public class TaskController {
         task.setParentTaskId(taskId);
         taskService.save(task);
 
-        return "redirect:/projects/" + projectId + "/tasks";
+        return "redirect:/projects/" + projectId + "/tasks/" + taskId + "/subtasks";
     }
 
     @GetMapping("/{taskId}/subtasks")
