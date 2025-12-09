@@ -62,14 +62,15 @@
 
     <h1 th:text="'Edit Subtask: ' + ${task.name}"></h1>
 
-    <form th:action="@{/projects/{projectId}/tasks/{taskId}/subtasks/update(
+    <form th:action="@{/projects/{projectId}/tasks/{parentTaskId}/subtasks/{subtaskId}/update(
                             projectId=${project.id},
-                            taskId=${task.id})}"
+                            parentTaskId=${parentTaskId},
+                            subtaskId=${task.id})}"
           method="post">
 
         <input type="hidden" name="id" th:value="${task.id}">
         <input type="hidden" name="projectId" th:value="${project.id}">
-        <input type="hidden" name="parentTaskId" th:value="${task.parentTaskId}">
+        <input type="hidden" name="parentTaskId" th:value="${parentTaskId}">
 
         <label>Name</label>
         <input type="text" name="name" th:value="${task.name}" required>
@@ -79,17 +80,17 @@
 
         <label>Status</label>
         <select name="status">
-            <option th:selected="${task.status == 'IN_PROGRESS'}">IN_PROGRESS</option>
-            <option th:selected="${task.status == 'COMPLETED'}">COMPLETED</option>
-            <option th:selected="${task.status == 'PAUSED'}">PAUSED</option>
-            <option th:selected="${task.status == 'CANCELLED'}">CANCELLED</option>
+            <option th:selected="${task.status == T(com.alpha.solutionspkv.model.Task.Status).IN_PROGRESS}" value="IN_PROGRESS">IN_PROGRESS</option>
+            <option th:selected="${task.status == T(com.alpha.solutionspkv.model.Task.Status).COMPLETED}" value="COMPLETED">COMPLETED</option>
+            <option th:selected="${task.status == T(com.alpha.solutionspkv.model.Task.Status).PAUSED}" value="PAUSED">PAUSED</option>
+            <option th:selected="${task.status == T(com.alpha.solutionspkv.model.Task.Status).CANCELLED}" value="CANCELLED">CANCELLED</option>
         </select>
 
         <button class="btn btn-success" type="submit">Save</button>
 
         <a th:href="@{/projects/{projectId}/tasks/{parentId}/subtasks(
                         projectId=${project.id},
-                        parentId=${task.parentTaskId})}"
+                        parentId=${parentTaskId})}"
            class="btn btn-secondary">
             Back
         </a>
