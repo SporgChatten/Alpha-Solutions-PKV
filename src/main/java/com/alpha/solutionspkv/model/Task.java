@@ -1,17 +1,16 @@
 package com.alpha.solutionspkv.model;
 
+import org.springframework.lang.Nullable;
+
 public class Task {
     private int id;
     private int projectId;
-    private String name;
-    private String description;
-    private Status status;
-    private Integer parentTaskId;
+    private @Nullable Integer parentTaskId;
 
     public enum Status {IN_PROGRESS, COMPLETED, CANCELLED, PAUSED, NOT_STARTED}
     public Task() {}
 
-    public Task(int id, int projectId, String name, String description, Status status, Integer parentTaskId) {
+    public Task(int id, int projectId, String name, String description, Status status, @Nullable Integer parentTaskId) {
         this.id = id;
         this.projectId = projectId;
         this.name = name;
@@ -60,11 +59,11 @@ public class Task {
         return status;
     }
 
-    public Integer getParentTaskId() {
+    public @Nullable Integer getParentTaskId() {
         return parentTaskId;
     }
 
-    public void setParentTaskId(Integer parentTaskId) {
+    public void setParentTaskId(@Nullable Integer parentTaskId) {
         this.parentTaskId = parentTaskId;
     }
 
