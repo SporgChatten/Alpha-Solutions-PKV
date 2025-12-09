@@ -12,7 +12,7 @@ public class TaskRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final RowMapper<Task> TaskRowMapper = (rs, rowNum) -> {
+    private final RowMapper<Task> taskRowMapper = (rs, rowNum) -> {
         Task task = new Task();
 
         task.setId(rs.getInt("id"));
@@ -34,22 +34,22 @@ public class TaskRepository {
 
     public List<Task> findAll() {
         String sql = "SELECT * FROM tasks";
-        return jdbcTemplate.query(sql, TaskRowMapper);
+        return jdbcTemplate.query(sql, taskRowMapper);
     }
 
     public List<Task> findByProjectId(int projectId) {
         String sql = "SELECT * FROM tasks WHERE project_id = ?";
-        return jdbcTemplate.query(sql, TaskRowMapper, projectId);
+        return jdbcTemplate.query(sql, taskRowMapper, projectId);
     }
 
     public List<Task> findSubtasks(int parentTaskId) {
         String sql = "SELECT * FROM tasks WHERE parent_task_id = ?";
-        return jdbcTemplate.query(sql, TaskRowMapper, parentTaskId);
+        return jdbcTemplate.query(sql, taskRowMapper, parentTaskId);
     }
 
     public Task findById(int id) {
         String sql = "SELECT * FROM tasks WHERE id = ?";
-        List<Task> tasks = jdbcTemplate.query(sql, TaskRowMapper, id);
+        List<Task> tasks = jdbcTemplate.query(sql, taskRowMapper, id);
         return tasks.isEmpty() ? null : tasks.get(0);
     }
 
