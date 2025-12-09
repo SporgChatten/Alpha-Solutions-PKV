@@ -96,6 +96,10 @@ public class TaskController {
         return "redirect:/projects/" + projectId + "/tasks";
     }
 
+    // ---------------
+    // Subtasks start
+    // ---------------
+
     @GetMapping("/{id}/subtasks/new")
     public String showCreateSubtaskForm(@PathVariable int projectId, @PathVariable int id, Model model) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
@@ -146,6 +150,39 @@ public class TaskController {
         if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects/" + projectId + "/tasks";
 
         taskService.deleteById(subtaskId);
+        return "redirect:/projects/" + projectId + "/tasks/" + taskId + "/subtasks";
+    }
+
+    @GetMapping("/{taskId}/subtasks/{subtaskId}/edit")
+    public String showEditSubtask(@PathVariable int projectId, @PathVariable int taskId, @PathVariable int subtaskId, Model model) {
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects/" + projectId + "/tasks";
+
+        Project project = projectService.getProjectById(projectId);
+        Task subtask = taskService.findById(subtaskId);
+
+        if (subtask == null || subtask.getParentTaskId() == null || subtask.getParentTaskId() != taskId) {
+            return "redirect:/projects/" + projectId + "/tasks/" + taskId + "/subtasks";
+        }
+
+        model.addAttribute("project", project);
+        model.addAttribute("task", subtask); // The subtask to edit
+        model.addAttribute("parentTaskId", taskId);
+
+        return "tasks/subTaskEdit";
+    }
+
+    @PostMapping("/{taskId}/subtasks/{subtaskId}/update")
+    public String updateSubtask(@PathVariable int projectId, @PathVariable int taskId, @PathVariable int subtaskId, @ModelAttribute Task task) {
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects/" + projectId + "/tasks";
+
+        task.setId(subtaskId);
+        task.setProjectId(projectId);
+        task.setParentTaskId(taskId);
+
+        taskService.update(task);
+
         return "redirect:/projects/" + projectId + "/tasks/" + taskId + "/subtasks";
     }
 }
