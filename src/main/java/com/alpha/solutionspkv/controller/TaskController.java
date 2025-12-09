@@ -149,6 +149,7 @@ public class TaskController {
 
         return "tasks/subtaskList";
     }
+
     @PostMapping("/{taskId}/subtasks/{subtaskId}/delete")
     public String deleteSubtask(@PathVariable int projectId,
                                 @PathVariable int taskId,
@@ -160,5 +161,50 @@ public class TaskController {
         taskService.deleteById(subtaskId);
         return "redirect:/projects/" + projectId + "/tasks/" + taskId + "/subtasks";
     }
+
+    @GetMapping("/{taskId}/subtasks/{subtaskId}/edit")
+    public String showEditSubtask(@PathVariable int projectId,
+                                  @PathVariable int taskId,
+                                  @PathVariable int subtaskId,
+                                  Model model) {
+
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects())
+            return "redirect:/projects/" + projectId + "/tasks/" + taskId + "/subtasks";
+
+        Project project = projectService.getProjectById(projectId);
+        Task subtask = taskService.findById(subtaskId);
+
+        if (subtask == null || subtask.getParentTaskId() != taskId) {
+            return "redirect:/projects/" + projectId + "/tasks/" + taskId + "/subtasks";
+        }
+
+        model.addAttribute("project", project);
+        model.addAttribute("parentTask", taskService.findById(taskId));
+        model.addAttribute("task", subtask);
+
+        return "tasks/subTaskEdit";
+    }
+
+    @PostMapping("/{taskId}/subtasks/{subtaskId}/update")
+    public String updateSubtask(@PathVariable int projectId,
+                                @PathVariable int taskId,
+                                @PathVariable int subtaskId,
+                                @ModelAttribute Task task) {
+
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.getCurrentUser().canManageProjects())
+            return "redirect:/projects/" + projectId + "/tasks/" + taskId + "/subtasks";
+
+        task.setId(subtaskId);
+        task.setProjectId(projectId);
+        task.setParentTaskId(taskId);
+
+        taskService.update(task);
+
+        return "redirect:/projects/" + projectId + "/tasks/" + taskId + "/subtasks";
+    }
+
+
 
 }

@@ -22,13 +22,9 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.2);
         }
 
-        h1 {
-            margin-bottom: 20px;
-        }
-
         label {
-            display: block;
             margin-top: 15px;
+            display: block;
             font-weight: bold;
         }
 
@@ -42,17 +38,16 @@
 
         .btn {
             padding: 10px 15px;
-            text-decoration: none;
             border-radius: 6px;
-            cursor: pointer;
             font-weight: bold;
-            transition: 0.2s;
             display: inline-block;
             margin-top: 20px;
+            text-decoration: none;
+            text-align: center;
         }
 
-        .btn-success { background-color: #28a745; color: white; }
-        .btn-secondary { background-color: #6c757d; color: white; }
+        .btn-success { background:#28a745; color:white; }
+        .btn-secondary { background:#6c757d; color:white; }
     </style>
 </head>
 
@@ -62,9 +57,10 @@
 
     <h1 th:text="'Edit Subtask: ' + ${task.name}"></h1>
 
-    <form th:action="@{/projects/{projectId}/tasks/{taskId}/subtasks/update(
-                            projectId=${project.id},
-                            taskId=${task.id})}"
+    <form th:action="@{/projects/{projectId}/tasks/{taskId}/subtasks/{subtaskId}/update(
+                        projectId=${project.id},
+                        taskId=${task.parentTaskId},
+                        subtaskId=${task.id})}"
           method="post">
 
         <input type="hidden" name="id" th:value="${task.id}">
@@ -79,10 +75,11 @@
 
         <label>Status</label>
         <select name="status">
-            <option th:selected="${task.status == 'IN_PROGRESS'}">IN_PROGRESS</option>
-            <option th:selected="${task.status == 'COMPLETED'}">COMPLETED</option>
-            <option th:selected="${task.status == 'PAUSED'}">PAUSED</option>
-            <option th:selected="${task.status == 'CANCELLED'}">CANCELLED</option>
+            <option value="NOT_STARTED" th:selected="${task.status == 'NOT_STARTED'}">NOT_STARTED</option>
+            <option value="IN_PROGRESS" th:selected="${task.status == 'IN_PROGRESS'}">IN_PROGRESS</option>
+            <option value="COMPLETED" th:selected="${task.status == 'COMPLETED'}">COMPLETED</option>
+            <option value="PAUSED" th:selected="${task.status == 'PAUSED'}">PAUSED</option>
+            <option value="CANCELLED" th:selected="${task.status == 'CANCELLED'}">CANCELLED</option>
         </select>
 
         <button class="btn btn-success" type="submit">Save</button>
@@ -90,9 +87,8 @@
         <a th:href="@{/projects/{projectId}/tasks/{parentId}/subtasks(
                         projectId=${project.id},
                         parentId=${task.parentTaskId})}"
-           class="btn btn-secondary">
-            Back
-        </a>
+           class="btn btn-secondary">Back</a>
+
     </form>
 
 </div>
