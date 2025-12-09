@@ -76,6 +76,19 @@
             font-weight: bold;
         }
 
+         .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .status-IN_PROGRESS { background-color: #ffc107; color: black; }
+        .status-COMPLETED { background-color: #28a745; color: white; }
+        .status-CANCELLED { background-color: #dc3545; color: white; }
+        .status-PAUSED { background-color: #17a2b8; color: white; }
+
         .actions {
             display: flex;
             gap: 10px;
@@ -112,6 +125,7 @@
             <th style="width: 80px;">ID</th>
             <th style="width: 200px;">Subtask</th>
             <th>Description</th>
+            <th>Status</th>
             <th style="width: 160px;">Actions</th>
         </tr>
         </thead>
@@ -122,14 +136,18 @@
             <td th:text="${sub.name}"></td>
             <td th:text="${#strings.abbreviate(sub.description, 100)}"></td>
             <td>
+                <span th:text="${sub.status}"
+                      th:class="'status-badge status-' + ${sub.status}">
+                </span>
+            </td>
+            <td>
                 <div class="actions">
                     <a th:if="${currentUser.canManageProjects()}"
                        th:href="@{/projects/{projectId}/tasks/{taskId}/subtasks/{subtaskId}/edit(
                                       projectId=${project.id},
                                       taskId=${parentTask.id},
                                       subtaskId=${sub.id})}"
-                       class="btn btn-warning">
-                        Edit
+                       class="btn btn-warning">Edit
                     </a>
 
                     <form th:if="${currentUser.canManageProjects()}"
@@ -153,8 +171,6 @@
         <h3>No subtasks found</h3>
         <p th:if="${currentUser.canManageProjects()}">Start by creating one above.</p>
     </div>
-
 </div>
-
 </body>
 </html>

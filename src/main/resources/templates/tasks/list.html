@@ -52,6 +52,20 @@
         .btn-danger { background-color: #dc3545; color: white; }
         .btn-secondary { background-color: #6c757d; color: white; }
 
+        .status-badge {
+                padding: 6px 12px;
+                border-radius: 20px;
+                font-size: 13px;
+                font-weight: bold;
+                display: inline-block;
+            }
+
+            .status-IN_PROGRESS { background-color: #ffc107; color: black; }
+            .status-COMPLETED { background-color: #28a745; color: white; }
+            .status-CANCELLED { background-color: #dc3545; color: white; }
+            .status-PAUSED { background-color: #17a2b8; color: white; }
+            .status-NOT_STARTED { background-color: #e2e3e5; color: #383d41; }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -124,10 +138,10 @@
                 </span>
             </td>
             <td class="actions">
-
                 <a th:if="${currentUser.canManageProjects()}"
                    th:href="@{/projects/{projectId}/tasks/{taskId}/edit(projectId=${project.id}, taskId=${task.id})}"
-                   class="btn btn-warning">Edit</a>
+                   class="btn btn-warning">Edit
+                </a>
 
                 <a th:href="@{/projects/{projectId}/tasks/{taskId}/subtasks(projectId=${project.id}, taskId=${task.id})}"
                    class="btn btn-info">
@@ -157,8 +171,6 @@
             No tasks have been added to this project yet.
         </p>
     </div>
-
 </div>
-
 </body>
 </html>
