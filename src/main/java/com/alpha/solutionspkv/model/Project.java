@@ -1,22 +1,29 @@
 package com.alpha.solutionspkv.model;
 
+import java.beans.Transient;
+import java.math.BigDecimal;
+
 public class Project {
     private int id;
     private String name;
     private String description;
-    
+
+    private BigDecimal estimatedCost;
+
     public Project() {}
-    
+
     public Project(String name, String description) {
         this.name = name;
         this.description = description;
     }
-    
     public Project(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
+
+    public BigDecimal getEstimatedCost() { return estimatedCost; }
+    public void setEstimatedCost(BigDecimal estimatedCost) { this.estimatedCost = estimatedCost; }
     
     public int getId() {
         return id;

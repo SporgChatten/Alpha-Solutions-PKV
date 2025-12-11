@@ -23,6 +23,7 @@ description TEXT,
 project_id INT NOT NULL,
 parent_task_id INT NULL,
 status VARCHAR(50) NOT NULL DEFAULT 'NOT_STARTED',
+estimated_cost DECIMAL(10,2) NULL,
 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
 FOREIGN KEY (parent_task_id) REFERENCES tasks(id) ON DELETE CASCADE
 );

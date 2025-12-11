@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -31,6 +32,11 @@ public class TaskController {
 
         Project project = projectService.getProjectById(projectId);
         List<Task> tasks = taskService.findRootTasksByProjectId(projectId);
+
+        for (Task task : tasks) {
+            BigDecimal totalCost = taskService.getTotalEstimatedCostForTask(task.getId());
+            task.setEstimatedCost(totalCost);
+        }
 
         model.addAttribute("project", project);
         model.addAttribute("tasks", tasks);

@@ -1,5 +1,7 @@
 package com.alpha.solutionspkv.model;
 
+import java.math.BigDecimal;
+
 public class Task {
     private int id;
     private int projectId;
@@ -7,17 +9,19 @@ public class Task {
     private String description;
     private Status status;
     private Integer parentTaskId;
+    private BigDecimal estimatedCost;
 
     public enum Status {IN_PROGRESS, COMPLETED, CANCELLED, PAUSED, NOT_STARTED}
     public Task() {}
 
-    public Task(int id, int projectId, String name, String description, Status status, Integer parentTaskId) {
+    public Task(int id, int projectId, String name, String description, Status status, Integer parentTaskId, BigDecimal estimatedCost) {
         this.id = id;
         this.projectId = projectId;
         this.name = name;
         this.description = description;
         this.status = status;
         this.parentTaskId = parentTaskId;
+        this.estimatedCost = estimatedCost;
     }
 
     public int getId() {
@@ -66,6 +70,14 @@ public class Task {
 
     public void setParentTaskId(Integer parentTaskId) {
         this.parentTaskId = parentTaskId;
+    }
+
+    public BigDecimal getEstimatedCost() {
+        return estimatedCost;
+    }
+
+    public void setEstimatedCost(BigDecimal estimatedCost) {
+        this.estimatedCost = estimatedCost;
     }
 
     @Override

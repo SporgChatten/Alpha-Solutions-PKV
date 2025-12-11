@@ -98,7 +98,8 @@
 
         <div class="user-info">
             <span>Welcome, <strong th:text="${currentUser.username}">User</strong>!</span>
-            <a th:if="${currentUser.role != null && currentUser.role.name() == 'ADMIN'}" href="/users" class="btn btn-secondary">Manage Users</a>
+            <a th:if="${currentUser.role != null && currentUser.role.name() == 'ADMIN'}"
+               href="/users" class="btn btn-secondary">Manage Users</a>
             <a href="/logout" class="btn btn-danger">Logout</a>
         </div>
     </div>
@@ -111,6 +112,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Description</th>
+            <th>Estimated Cost</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -120,11 +122,14 @@
             <td th:text="${project.id}"></td>
             <td th:text="${project.name}"></td>
             <td th:text="${#strings.abbreviate(project.description, 100)}"></td>
+            <td th:text="${project.estimatedCost != null ? project.estimatedCost : 0}"></td>
             <td class="actions">
                 <a th:href="@{/projects/{id}/tasks(id=${project.id})}" class="btn btn-info">View</a>
-                <a th:if="${currentUser.canManageProjects()}" th:href="@{/projects/{id}/edit(id=${project.id})}" class="btn btn-warning">Edit</a>
+                <a th:if="${currentUser.canManageProjects()}"
+                   th:href="@{/projects/{id}/edit(id=${project.id})}" class="btn btn-warning">Edit</a>
 
-                <form th:if="${currentUser.canManageProjects()}" th:action="@{/projects/{id}/delete(id=${project.id})}"
+                <form th:if="${currentUser.canManageProjects()}"
+                      th:action="@{/projects/{id}/delete(id=${project.id})}"
                       method="post"
                       style="display: inline;">
                     <button type="submit" class="btn btn-danger"
@@ -136,6 +141,8 @@
         </tr>
         </tbody>
     </table>
+
 </div>
+
 </body>
 </html>
