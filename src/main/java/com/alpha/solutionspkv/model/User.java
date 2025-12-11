@@ -8,8 +8,8 @@ public class User {
     private Role role;
 
     public enum Role {ADMIN, PROJECT_MANAGER, EMPLOYEE;}
-    public User() {}
 
+    public User() {}
     public User(String username, String email, String password, Role role) {
         this.username = username;
         this.email = email;
@@ -76,6 +76,7 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", role=" + role +
                 '}';
     }
