@@ -84,8 +84,12 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "id=" + id +
+                ", projectId=" + projectId +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", status=" + status +
+                ", parentTaskId=" + parentTaskId +
+                ", estimatedCost=" + estimatedCost +
                 '}';
     }
 }
