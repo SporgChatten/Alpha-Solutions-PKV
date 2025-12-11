@@ -1,6 +1,5 @@
 package com.alpha.solutionspkv.model;
 
-import java.beans.Transient;
 import java.math.BigDecimal;
 
 public class Project {
@@ -53,12 +52,14 @@ public class Project {
         this.estimatedCost = estimatedCost;
     }
 
+
     @Override
     public String toString() {
         return "Project{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", estimatedCost=" + estimatedCost +
                 '}';
     }
 }
