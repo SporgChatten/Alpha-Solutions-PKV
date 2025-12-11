@@ -93,7 +93,6 @@
         <p>Please login to continue</p>
     </div>
 
-    <!-- Show error message if login failed -->
     <div th:if="${error}" class="error" th:text="${error}"></div>
 
     <form th:action="@{/login}" method="post" th:object="${user}">
@@ -109,27 +108,6 @@
 
         <button type="submit" class="btn">Login</button>
     </form>
-
-    <div class="demo-credentials">
-        <h4>Demo Credentials:</h4>
-        <p>
-            <i>Admin</i><br>
-            <strong>Username:</strong> admin<br>
-            <strong>Password:</strong> admin123<br>
-        </p>
-
-        <p>
-            <i>Project Manager</i><br>
-            <strong>Username:</strong> john_doe<br>
-            <strong>Password:</strong> password123<br>
-        </p>
-
-        <p>
-            <i>Employee</i><br>
-            <strong>Username:</strong> bob_johnson<br>
-            <strong>Password:</strong> password123<br>
-        </p>
-    </div>
 </div>
 </body>
 </html>
