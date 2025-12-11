@@ -1,12 +1,15 @@
 package com.alpha.solutionspkv.controller;
 
 import com.alpha.solutionspkv.model.Project;
+import com.alpha.solutionspkv.model.Task;
 import com.alpha.solutionspkv.service.ProjectService;
 import com.alpha.solutionspkv.service.SessionService;
+import com.alpha.solutionspkv.service.TaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -14,10 +17,12 @@ import java.util.List;
 public class ProjectController {
 
     private final ProjectService projectService;
+    private final TaskService taskService;
     private final SessionService sessionService;
 
-    public ProjectController(ProjectService projectService, SessionService sessionService) {
+    public ProjectController(ProjectService projectService, TaskService taskService, SessionService sessionService) {
         this.projectService = projectService;
+        this.taskService = taskService;
         this.sessionService = sessionService;
     }
 
@@ -27,6 +32,12 @@ public class ProjectController {
             return "redirect:/login";
         }
         List<Project> projects = projectService.getAllProjects();
+
+        for (Project project : projects) {
+            BigDecimal totalCost = taskService.getTotalEstimatedCostForProject(project.getId());
+            project.setEstimatedCost(totalCost);
+        }
+
         model.addAttribute("projects", projects);
         model.addAttribute("currentUser", sessionService.getCurrentUser());
         return "projects/list";

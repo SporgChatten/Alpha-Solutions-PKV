@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
@@ -24,6 +25,7 @@ public class TaskRepository {
             task.setStatus(Task.Status.valueOf(statusStr));
         }
         task.setParentTaskId(rs.getObject("parent_task_id", Integer.class));
+        task.setEstimatedCost(rs.getBigDecimal("estimated_cost"));
 
         return task;
     };
@@ -54,21 +56,23 @@ public class TaskRepository {
     }
 
     public void save(Task task) {
-        String sql = "INSERT INTO tasks (project_id, name, description, status, parent_task_id) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tasks (project_id, name, description, status, parent_task_id, estimated_cost) VALUES (?, ?, ?, ?, ?, ?)";
         String status = task.getStatus() != null ? task.getStatus().name() : Task.Status.NOT_STARTED.name();
         jdbcTemplate.update(sql, task.getProjectId(), task.getName(), task.getDescription(), status,
-                task.getParentTaskId()
+                task.getParentTaskId(), task.getEstimatedCost()
         );
     }
 
     public void update(Task task) {
-        String sql = "UPDATE tasks SET name = ?, description = ?, status = ?, parent_task_id = ? WHERE id = ?";
+        String sql = "UPDATE tasks SET name = ?, description = ?, status = ?, parent_task_id = ?, estimated_cost = ? WHERE id = ?";
         String status = task.getStatus() != null ? task.getStatus().name() : Task.Status.IN_PROGRESS.name();
-        jdbcTemplate.update(sql, task.getName(), task.getDescription(), status, task.getParentTaskId(), task.getId());
+        jdbcTemplate.update(sql, task.getName(), task.getDescription(), status, task.getParentTaskId(), task.getEstimatedCost(), task.getId());
     }
 
-    public  void deleteById(int id) {
+    public void deleteById(int id) {
         String sql = "DELETE FROM tasks WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
+
+
 }

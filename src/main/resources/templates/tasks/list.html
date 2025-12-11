@@ -109,6 +109,7 @@
             <th>Task</th>
             <th>Description</th>
             <th>Status</th>
+            <th>Estimated Cost</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -123,6 +124,7 @@
                       th:class="'status-badge status-' + ${task.status}">
                 </span>
             </td>
+            <td th:text="${task.estimatedCost}">0</td>
             <td class="actions">
 
                 <a th:if="${currentUser.canManageProjects()}"

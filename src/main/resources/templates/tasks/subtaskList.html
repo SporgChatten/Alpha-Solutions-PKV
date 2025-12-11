@@ -37,10 +37,7 @@
             align-items: center;
         }
 
-        h1 {
-            margin: 0;
-            font-size: 26px;
-        }
+        h1 { margin: 0; font-size: 26px; }
 
         .btn {
             padding: 10px 15px;
@@ -48,43 +45,35 @@
             border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
-            transition: .2s;
             display: inline-block;
         }
 
         .btn-secondary { background-color: #6c757d; color: white; }
         .btn-success   { background-color: #28a745; color: white; }
         .btn-danger    { background-color: #dc3545; color: white; }
+        .btn-warning   { background-color: #ffc107; color: black; }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
-        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+        th { background-color: #f9f9f9; font-weight: bold; }
 
-        th, td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #e0e0e0;
-            text-align: left;
-            vertical-align: middle;
-            word-break: break-word;
-        }
-
-        th {
-            background-color: #f9f9f9;
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
             font-weight: bold;
+            display: inline-block;
+            color: white;
         }
 
-        .actions {
-            display: flex;
-            gap: 10px;
-        }
+        .status-IN_PROGRESS { background-color: #007bff; }
+        .status-COMPLETED   { background-color: #28a745; }
+        .status-PAUSED      { background-color: #ffc107; color: black; }
+        .status-CANCELLED   { background-color: #dc3545; }
+        .status-NOT_STARTED { background-color: transparent; color: black; font-weight: bold; }
 
-        .empty-message {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-        }
+        .actions { display: flex; gap: 10px; }
+        .empty-message { text-align: center; margin-top: 50px; }
     </style>
 </head>
 
@@ -99,7 +88,8 @@
     </div>
 
     <a th:if="${currentUser.canManageProjects()}"
-       th:href="@{/projects/{projectId}/tasks/{taskId}/subtasks/new(projectId=${project.id}, taskId=${parentTask.id})}"
+       th:href="@{/projects/{projectId}/tasks/{taskId}/subtasks/new(
+                    projectId=${project.id}, taskId=${parentTask.id})}"
        class="btn btn-success"
        style="margin-bottom: 20px;">
         Add Subtask
@@ -108,36 +98,51 @@
     <table th:if="${!#lists.isEmpty(subtasks)}">
         <thead>
         <tr>
-            <th style="width: 80px;">ID</th>
-            <th style="width: 200px;">Subtask</th>
+            <th>ID</th>
+            <th>Subtask</th>
             <th>Description</th>
-            <th style="width: 160px;">Actions</th>
+            <th>Estimated Cost</th>
+            <th>Status</th>
+            <th style="width: 200px;">Actions</th>
         </tr>
         </thead>
-
         <tbody>
         <tr th:each="sub : ${subtasks}">
             <td th:text="${sub.id}"></td>
             <td th:text="${sub.name}"></td>
             <td th:text="${#strings.abbreviate(sub.description, 100)}"></td>
-
+            <td th:text="${#numbers.formatDecimal(sub.estimatedCost, 1, 'COMMA', 2, 'POINT')}"></td>
+            <td>
+                <span th:if="${sub.status != 'NOT_STARTED'}"
+                      class="status-badge"
+                      th:text="${sub.status}"
+                      th:class="'status-badge status-' + ${sub.status}">
+                </span>
+                <span th:if="${sub.status == 'NOT_STARTED'}"
+                      th:text="${sub.status}"
+                      class="status-badge status-NOT_STARTED">
+                </span>
+            </td>
             <td>
                 <div class="actions">
-
+                    <a th:if="${currentUser.canManageProjects()}"
+                       th:href="@{/projects/{projectId}/tasks/{taskId}/subtasks/{subtaskId}/edit(
+                                        projectId=${project.id},
+                                        taskId=${parentTask.id},
+                                        subtaskId=${sub.id})}"
+                       class="btn btn-warning">Edit</a>
 
                     <form th:if="${currentUser.canManageProjects()}"
                           th:action="@{/projects/{projectId}/tasks/{taskId}/subtasks/{subtaskId}/delete(
-                                      projectId=${project.id},
-                                      taskId=${parentTask.id},
-                                      subtaskId=${sub.id})}"
-                          method="post">
-
+                                            projectId=${project.id},
+                                            taskId=${parentTask.id},
+                                            subtaskId=${sub.id})}"
+                          method="post" style="display:inline;">
                         <button class="btn btn-danger"
                                 onclick="return confirm('Delete this subtask?')">
                             Delete
                         </button>
                     </form>
-
                 </div>
             </td>
         </tr>
