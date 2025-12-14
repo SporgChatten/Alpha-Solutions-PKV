@@ -19,6 +19,14 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<User> getUsersAssignedToProject(int projectId) {
+        return userRepository.findUsersAssignedToProject(projectId);
+    }
+
+    public List<User> getUsersNotAssignedToProject(int projectId) {
+        return userRepository.findUsersNotAssignedToProject(projectId);
+    }
+
     public User getUserById(int id) {
         return userRepository.findById(id);
     }

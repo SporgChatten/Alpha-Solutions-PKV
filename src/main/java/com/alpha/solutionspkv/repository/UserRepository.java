@@ -35,6 +35,29 @@ public class UserRepository {
         return jdbcTemplate.query(sql, userRowMapper);
     }
 
+    public List<User> findUsersAssignedToProject(int projectId) {
+        String sql = """
+                SELECT u.*
+                FROM users u
+                JOIN project_users pu ON pu.user_id = u.id
+                WHERE pu.project_id = ?
+                ORDER BY u.username
+                """;
+        return jdbcTemplate.query(sql, userRowMapper, projectId);
+    }
+
+    public List<User> findUsersNotAssignedToProject(int projectId) {
+        String sql = """
+                SELECT u.*
+                FROM users u
+                WHERE u.id NOT IN (
+                    SELECT pu.user_id FROM project_users pu WHERE pu.project_id = ?
+                )
+                ORDER BY u.username
+                """;
+        return jdbcTemplate.query(sql, userRowMapper, projectId);
+    }
+
     // Find user by ID
     public User findById(int id) {
         String sql = "SELECT * FROM users WHERE id = ?";

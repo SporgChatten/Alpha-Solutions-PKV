@@ -19,6 +19,11 @@ public class ProjectService {
         return projectRepository.findAll();
     }
     
+
+    public List<Project> getProjectsForUser(int userId) {
+        return projectRepository.findAllForUser(userId);
+    }
+
     public Project getProjectById(int id) {
         return projectRepository.findById(id);
     }
