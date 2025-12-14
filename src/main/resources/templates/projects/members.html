@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Members - ' + ${project.name}">Project Members</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1000px; margin: 40px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px 25px; border-radius: 10px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .btn { padding: 10px 15px; text-decoration: none; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+        .btn-success { background-color: #28a745; color: white; }
+        .btn-danger { background-color: #dc3545; color: white; }
+
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .card { border: 1px solid #eee; border-radius: 10px; padding: 15px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 10px; border-bottom: 1px solid #eee; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .actions { white-space: nowrap; }
+        select { padding: 8px; border-radius: 6px; border: 1px solid #ccc; width: 100%; }
+        .row { display: flex; gap: 10px; align-items: center; margin-top: 10px; }
+        .row form { display: flex; gap: 10px; width: 100%; }
+        .row button { white-space: nowrap; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="header">
+        <div>
+            <h2 style="margin:0;" th:text="'Members for: ' + ${project.name}">Members</h2>
+            <div style="opacity:.9;" th:text="'Project ID: ' + ${project.id}">Project ID</div>
+        </div>
+        <a th:href="@{/projects}" class="btn btn-secondary">Back to Projects</a>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3 style="margin-top:0;">Assigned Users</h3>
+
+            <table th:if="${!#lists.isEmpty(assignedUsers)}">
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th class="actions">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="u : ${assignedUsers}">
+                    <td th:text="${u.username}">username</td>
+                    <td th:text="${u.email}">email</td>
+                    <td th:text="${u.role != null ? u.role.name().replace('_',' ') : 'EMPLOYEE'}">role</td>
+                    <td class="actions">
+                        <form th:action="@{/projects/{projectId}/members/{userId}/remove(projectId=${project.id}, userId=${u.id})}"
+                              method="post" style="display:inline;">
+                            <button class="btn btn-danger"
+                                    type="submit"
+                                    onclick="return confirm('Remove this user from the project?')">
+                                Remove
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div th:if="${#lists.isEmpty(assignedUsers)}">
+                <p>No users assigned yet.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-top:0;">Add User to Project</h3>
+
+            <div th:if="${#lists.isEmpty(availableUsers)}">
+                <p>All users are already assigned.</p>
+            </div>
+
+            <div th:if="${!#lists.isEmpty(availableUsers)}" class="row">
+                <form th:action="@{/projects/{projectId}/members/assign(projectId=${project.id})}" method="post">
+                    <select name="userId" required>
+                        <option value="" disabled selected>Select a user...</option>
+                        <option th:each="u : ${availableUsers}"
+                                th:value="${u.id}"
+                                th:text="${u.username + ' (' + u.email + ')'}"></option>
+                    </select>
+                    <button type="submit" class="btn btn-success">Assign</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
