@@ -40,3 +40,11 @@ public class ProjectService {
         projectRepository.deleteById(id);
     }
 }
+
+    public boolean canAccessProject(User user, int projectId) {
+        if (user == null) return false;
+
+        if (user.getRole() == User.Role.ADMIN) return true;
+
+        return projectRepository.isUserAssignedToProject(user.getId(), projectId);
+    }

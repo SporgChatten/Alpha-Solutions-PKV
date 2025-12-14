@@ -51,3 +51,8 @@ public class ProjectRepository {
         jdbcTemplate.update(sql, id);
     }
 }
+    public boolean isUserAssignedToProject(int userId, int projectId) {
+        String sql = "SELECT COUNT(*) FROM project_users WHERE user_id = ? AND project_id = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, userId, projectId);
+        return count != null && count > 0;
+    }
