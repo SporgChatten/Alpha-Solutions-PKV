@@ -13,6 +13,18 @@ INSERT INTO users (username, email, password, role) VALUES
 ('bob_johnson', 'bob@example.com', 'password123', 'EMPLOYEE'),
 ('alice_wilson', 'alice@example.com', 'password123', 'EMPLOYEE');
 
+INSERT INTO project_users (project_id, user_id) VALUES
+(1, 3),
+(1, 5),
+(2, 4),
+(2, 6),
+(3, 3),
+(3, 5),
+(4, 5),
+(5, 4),
+(5, 5),
+(5, 6);
+
 INSERT INTO tasks (name, description, project_id) VALUES
 ('Setup Product Database', 'Create database schema for storing product information including categories, prices, and inventory', 1),
 ('Implement User Authentication', 'Develop login/logout functionality with password encryption and session management', 1),
