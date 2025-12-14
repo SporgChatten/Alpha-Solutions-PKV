@@ -3,8 +3,12 @@ package com.alpha.solutionspkv.repository;
 import com.alpha.solutionspkv.model.Project;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 @Repository
@@ -46,10 +50,23 @@ public class ProjectRepository {
         List<Project> projects = jdbcTemplate.query(sql, projectRowMapper, id);
         return projects.isEmpty() ? null : projects.get(0);
     }
-    
-    public void save(Project project) {
+
+    public int save(Project project) {
         String sql = "INSERT INTO projects (name, description) VALUES (?, ?)";
-        jdbcTemplate.update(sql, project.getName(), project.getDescription());
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, project.getName());
+            ps.setString(2, project.getDescription());
+            return ps;
+        }, keyHolder);
+
+        Number key = keyHolder.getKey();
+        if (key == null) {
+            throw new IllegalStateException("Project insert succeeded but no generated key was returned.");
+        }
+        return key.intValue();
     }
 
     public void update(Project project) {
