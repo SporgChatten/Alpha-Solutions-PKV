@@ -1,7 +1,7 @@
 package com.alpha.solutionspkv.controller;
 
 import com.alpha.solutionspkv.model.Project;
-import com.alpha.solutionspkv.model.Task;
+import com.alpha.solutionspkv.model.User;
 import com.alpha.solutionspkv.service.ProjectService;
 import com.alpha.solutionspkv.service.SessionService;
 import com.alpha.solutionspkv.service.TaskService;
@@ -28,10 +28,13 @@ public class ProjectController {
 
     @GetMapping
     public String viewAllProjects(Model model) {
-        if (!sessionService.isLoggedIn()) {
-            return "redirect:/login";
-        }
-        List<Project> projects = projectService.getAllProjects();
+        if (!sessionService.isLoggedIn()) return "redirect:/login";
+
+        User currentUser = sessionService.getCurrentUser();
+
+        List<Project> projects = (currentUser.getRole() == User.Role.ADMIN)
+                ? projectService.getAllProjects()
+                : projectService.getProjectsForUser(currentUser.getId());
 
         for (Project project : projects) {
             BigDecimal totalCost = taskService.getTotalEstimatedCostForProject(project.getId());
@@ -39,14 +42,13 @@ public class ProjectController {
         }
 
         model.addAttribute("projects", projects);
-        model.addAttribute("currentUser", sessionService.getCurrentUser());
+        model.addAttribute("currentUser", currentUser);
         return "projects/list";
     }
 
     @GetMapping("/new")
     public String showNewProjectForm(Model model) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
-
         if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects";
 
         model.addAttribute("project", new Project());
@@ -65,6 +67,7 @@ public class ProjectController {
     @GetMapping("/{id}")
     public String viewProject(@PathVariable int id, Model model) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!projectService.canAccessProject(sessionService.getCurrentUser(), id)) return "redirect:/projects";
 
         Project project = projectService.getProjectById(id);
         if (project != null) {
@@ -78,6 +81,7 @@ public class ProjectController {
     public String showEditForm(@PathVariable int id, Model model) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
         if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects";
+        if (!projectService.canAccessProject(sessionService.getCurrentUser(), id)) return "redirect:/projects";
 
         Project project = projectService.getProjectById(id);
         if (project != null) {
@@ -91,6 +95,7 @@ public class ProjectController {
     public String updateProject(@PathVariable int id, @ModelAttribute Project project) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
         if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects";
+        if (!projectService.canAccessProject(sessionService.getCurrentUser(), id)) return "redirect:/projects";
 
         project.setId(id);
         projectService.updateProject(project);
@@ -101,6 +106,7 @@ public class ProjectController {
     public String deleteProject(@PathVariable int id) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
         if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects";
+        if (!projectService.canAccessProject(sessionService.getCurrentUser(), id)) return "redirect:/projects";
 
         projectService.deleteProject(id);
         return "redirect:/projects";
@@ -110,6 +116,7 @@ public class ProjectController {
     @PostMapping("/{id}/task")
     public String showProjectTasks(@PathVariable int id) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!projectService.canAccessProject(sessionService.getCurrentUser(), id)) return "redirect:/projects";
 
         projectService.deleteProject(id);
         return "projects/view";

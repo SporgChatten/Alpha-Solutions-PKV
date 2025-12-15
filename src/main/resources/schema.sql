@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS project_users;
 DROP TABLE IF EXISTS tasks;
 DROP TABLE IF EXISTS projects;
 DROP TABLE IF EXISTS users;
@@ -14,6 +15,14 @@ username VARCHAR(255) NOT NULL UNIQUE,
 email VARCHAR(255) NOT NULL,
 password VARCHAR(255) NOT NULL,
 role VARCHAR(50) NOT NULL DEFAULT 'EMPLOYEE'
+);
+
+CREATE TABLE project_users (
+project_id INT NOT NULL,
+user_id INT NOT NULL,
+PRIMARY KEY (project_id, user_id),
+FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE tasks (

@@ -16,7 +16,7 @@ public class HomeController {
     @GetMapping("/")
     public String home() {
         // If logged in, redirect to projects
-        if (!sessionService.isLoggedIn()) return "redirect:/login";
+        if (!sessionService.isLoggedIn()) return "redirect:/projects";
 
         // If user is not logged in, redirect to login
         return "redirect:/login";
