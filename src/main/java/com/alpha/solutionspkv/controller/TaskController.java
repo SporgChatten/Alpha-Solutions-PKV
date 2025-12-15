@@ -72,9 +72,7 @@ public class TaskController {
     }
 
     @GetMapping("/{id}/edit")
-    public String showEditTask(@PathVariable int projectId,
-                               @PathVariable int id,
-                               Model model) {
+    public String showEditTask(@PathVariable int projectId, @PathVariable int id, Model model) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
         if (!sessionService.getCurrentUser().canManageProjects()) return "redirect:/projects/" + projectId + "/tasks";
         if (!projectService.canAccessProject(sessionService.getCurrentUser(), projectId)) return "redirect:/projects";
