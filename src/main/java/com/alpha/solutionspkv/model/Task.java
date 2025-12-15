@@ -15,16 +15,6 @@ public class Task {
 
     public Task() {}
 
-    public Task(int id, int projectId, String name, String description, Status status, Integer parentTaskId, BigDecimal estimatedCost) {
-        this.id = id;
-        this.projectId = projectId;
-        this.name = name;
-        this.description = description;
-        this.status = status;
-        this.parentTaskId = parentTaskId;
-        this.estimatedCost = estimatedCost;
-    }
-
     public int getId() {
         return id;
     }
