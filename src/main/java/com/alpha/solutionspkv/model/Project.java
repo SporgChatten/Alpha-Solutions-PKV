@@ -52,7 +52,6 @@ public class Project {
         this.estimatedCost = estimatedCost;
     }
 
-
     @Override
     public String toString() {
         return "Project{" +

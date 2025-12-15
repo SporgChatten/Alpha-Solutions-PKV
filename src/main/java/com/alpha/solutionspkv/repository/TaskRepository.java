@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
@@ -73,6 +72,4 @@ public class TaskRepository {
         String sql = "DELETE FROM tasks WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
-
-
 }

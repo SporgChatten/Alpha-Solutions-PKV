@@ -12,6 +12,7 @@ public class Task {
     private BigDecimal estimatedCost;
 
     public enum Status {IN_PROGRESS, COMPLETED, CANCELLED, PAUSED, NOT_STARTED}
+
     public Task() {}
 
     public Task(int id, int projectId, String name, String description, Status status, Integer parentTaskId, BigDecimal estimatedCost) {

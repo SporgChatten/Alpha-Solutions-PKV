@@ -112,7 +112,6 @@ public class ProjectController {
         return "redirect:/projects";
     }
 
-
     @PostMapping("/{id}/task")
     public String showProjectTasks(@PathVariable int id) {
         if (!sessionService.isLoggedIn()) return "redirect:/login";
